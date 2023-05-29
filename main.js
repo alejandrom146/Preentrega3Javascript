@@ -1,3 +1,4 @@
+/*Array de productos*/ 
 const productos = [
     {   id: 1,
         nombre: "Orbea",
@@ -18,6 +19,8 @@ const productos = [
         nombre: "Orbea Dh",
         precio: 2000,
         img: './assets/Orbea4.jpg'}];
+
+/*capturo variable con ID de Html*/ 
 const shopContent = document.getElementById("shopContent");
 const verCarrito = document.getElementById("verCarrito");
 const modalContainer = document.getElementById("modal-container");
@@ -25,6 +28,7 @@ const modalContainer = document.getElementById("modal-container");
 
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
+/* creo elementos e utilizo for each para recorrer los productos y mostrar en web */
 productos.forEach((product) => {
     let content = document.createElement("div");
     content.className = "card";
@@ -33,14 +37,15 @@ productos.forEach((product) => {
     <h3>${product.nombre}</h3>
     <p class="price">${product.precio} USD</p>
     `;
+
     shopContent.append(content);
-    
+/* boton */     
     let comprar = document.createElement("button")
     comprar.innerText = "Comprar";
     comprar.className = "Comprar";
 
     content.append(comprar);
-
+/*Agrego funcionalidad al boton comprar y pushear a carrito */ 
     comprar.addEventListener("click", () =>{
         carrito.push({
             id: product.id,
@@ -52,7 +57,7 @@ productos.forEach((product) => {
             savelocal();
     });
 });
-
+/*Al hacer click el usuario puede visualizar el carrito */
 verCarrito.addEventListener("click", () => {
     modalContainer.innerHTML = "";
     modalContainer.style.display = "flex";
@@ -73,7 +78,7 @@ verCarrito.addEventListener("click", () => {
 
     modalHeader.append(modalbutton);
 
-
+/*Para ver cada producto que haya elegido el usuario y for each para recorrerlo*/ 
     carrito.forEach((product) => {
       let carritoContent = document.createElement("div")
       carritoContent.className = "modal-content"
@@ -85,7 +90,7 @@ verCarrito.addEventListener("click", () => {
 
       modalContainer.append(carritoContent)
     });
-
+/*usando metodo reduce para contabilizar el total de lo que eligio el usuario*/ 
     const total = carrito.reduce((acc, el) => acc + el.precio, 0);
 
     const totalBuying = document.createElement("div");
